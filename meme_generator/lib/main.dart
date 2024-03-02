@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meme_generator/screen/meme_generator_screen.dart';
+import 'package:meme_generator/database.dart';
+import 'package:meme_generator/screen/home_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,16 +12,19 @@ void main() async {
 /// App,s main widget.
 class MyApp extends StatelessWidget {
   /// Constructor for [MyApp].
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [Provider(create: (context) => MemeDatabase())],
+      child: MaterialApp(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+          useMaterial3: true,
+        ),
+        home: const HomeScreen(),
       ),
-      home: const MemeGeneratorScreen(),
     );
   }
 }
