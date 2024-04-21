@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:go_router/go_router.dart';
 import 'package:meme_generator/data/database.dart';
+import 'package:meme_generator/data/file_processor.dart';
 import 'package:meme_generator/entity/meme_struct.dart';
 
 part 'home_cubit.freezed.dart';
@@ -24,13 +23,14 @@ class HomeCubit extends Cubit<HomeScreenState> {
 
   void deleteSelectedItems() async {
     for (final id in state.selectedItemIDs) {
+      final meme = state.memes.firstWhere((element) => element.id == id);
+      FileProcessor.deleteFile(meme.backgroundImagePath);
+      FileProcessor.deleteFile(meme.previewImagePath);
       await database.deleteMeme(id);
     }
-
-    emit(state.copyWith(selectedItemIDs: {}));
+    final newMemes = state.memes.where((element) => !state.selectedItemIDs.contains(element.id)).toList();
+    emit(state.copyWith(selectedItemIDs: {}, memes: newMemes));
   }
-
-  void editMeme(BuildContext context, int id) => context.go('/edit/$id');
 }
 
 @freezed

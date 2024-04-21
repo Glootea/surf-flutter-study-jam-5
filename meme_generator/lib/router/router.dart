@@ -4,8 +4,9 @@ import 'package:meme_generator/data/database.dart';
 import 'package:meme_generator/screen/editor/edit_cubit.dart';
 import 'package:meme_generator/screen/home/home_cubit.dart';
 import 'package:meme_generator/screen/home/home_screen.dart';
-import 'package:meme_generator/screen/editor/meme_generator_screen.dart';
+import 'package:meme_generator/screen/editor/editor_screen.dart';
 import 'package:meme_generator/screen/pick_file/pick_file.dart';
+import 'package:meme_generator/screen/pick_file/pick_file_cubit.dart';
 import 'package:provider/provider.dart';
 
 part 'router.g.dart';
@@ -34,7 +35,10 @@ class HomeRoute extends GoRouteData {
 class PickFileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const PickFileScreen();
+    return Provider(
+      create: (context) => PickFileCubit(_database),
+      child: const PickFileScreen(),
+    );
   }
 }
 
@@ -47,7 +51,7 @@ class EditorRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return Provider(
-      create: (context) => EditBloc(_database, id),
+      create: (context) => EditCubit(_database, id),
       child: const EditorScreen(),
     );
   }

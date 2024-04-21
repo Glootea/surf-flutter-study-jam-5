@@ -16,12 +16,16 @@ class _HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
 class _DefaultHomeScreenAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.read<ThemeProvider>();
     return AppBar(
-      title: Center(
-        child: Text(
-          "Ваши шаблоны мемов",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
+      centerTitle: true,
+      leading: IconButton(
+        icon: Icon(themeProvider.useDarkTheme ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
+        onPressed: () async => await themeProvider.toggleTheme(),
+      ),
+      title: Text(
+        "Ваши шаблоны мемов",
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

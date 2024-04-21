@@ -20,19 +20,22 @@ mixin _$HomeScreenState {
   Set<int> get selectedItemIDs => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $HomeScreenStateCopyWith<HomeScreenState> get copyWith => throw _privateConstructorUsedError;
+  $HomeScreenStateCopyWith<HomeScreenState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $HomeScreenStateCopyWith<$Res> {
-  factory $HomeScreenStateCopyWith(HomeScreenState value, $Res Function(HomeScreenState) then) =
+  factory $HomeScreenStateCopyWith(
+          HomeScreenState value, $Res Function(HomeScreenState) then) =
       _$HomeScreenStateCopyWithImpl<$Res, HomeScreenState>;
   @useResult
   $Res call({List<MemeStruct> memes, Set<int> selectedItemIDs});
 }
 
 /// @nodoc
-class _$HomeScreenStateCopyWithImpl<$Res, $Val extends HomeScreenState> implements $HomeScreenStateCopyWith<$Res> {
+class _$HomeScreenStateCopyWithImpl<$Res, $Val extends HomeScreenState>
+    implements $HomeScreenStateCopyWith<$Res> {
   _$HomeScreenStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -60,8 +63,10 @@ class _$HomeScreenStateCopyWithImpl<$Res, $Val extends HomeScreenState> implemen
 }
 
 /// @nodoc
-abstract class _$$HomeScreenStateImplCopyWith<$Res> implements $HomeScreenStateCopyWith<$Res> {
-  factory _$$HomeScreenStateImplCopyWith(_$HomeScreenStateImpl value, $Res Function(_$HomeScreenStateImpl) then) =
+abstract class _$$HomeScreenStateImplCopyWith<$Res>
+    implements $HomeScreenStateCopyWith<$Res> {
+  factory _$$HomeScreenStateImplCopyWith(_$HomeScreenStateImpl value,
+          $Res Function(_$HomeScreenStateImpl) then) =
       __$$HomeScreenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -69,9 +74,11 @@ abstract class _$$HomeScreenStateImplCopyWith<$Res> implements $HomeScreenStateC
 }
 
 /// @nodoc
-class __$$HomeScreenStateImplCopyWithImpl<$Res> extends _$HomeScreenStateCopyWithImpl<$Res, _$HomeScreenStateImpl>
+class __$$HomeScreenStateImplCopyWithImpl<$Res>
+    extends _$HomeScreenStateCopyWithImpl<$Res, _$HomeScreenStateImpl>
     implements _$$HomeScreenStateImplCopyWith<$Res> {
-  __$$HomeScreenStateImplCopyWithImpl(_$HomeScreenStateImpl _value, $Res Function(_$HomeScreenStateImpl) _then)
+  __$$HomeScreenStateImplCopyWithImpl(
+      _$HomeScreenStateImpl _value, $Res Function(_$HomeScreenStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +103,9 @@ class __$$HomeScreenStateImplCopyWithImpl<$Res> extends _$HomeScreenStateCopyWit
 /// @nodoc
 
 class _$HomeScreenStateImpl extends _HomeScreenState {
-  const _$HomeScreenStateImpl({final List<MemeStruct> memes = const [], final Set<int> selectedItemIDs = const {}})
+  const _$HomeScreenStateImpl(
+      {final List<MemeStruct> memes = const [],
+      final Set<int> selectedItemIDs = const {}})
       : _memes = memes,
         _selectedItemIDs = selectedItemIDs,
         super._();
@@ -130,23 +139,28 @@ class _$HomeScreenStateImpl extends _HomeScreenState {
         (other.runtimeType == runtimeType &&
             other is _$HomeScreenStateImpl &&
             const DeepCollectionEquality().equals(other._memes, _memes) &&
-            const DeepCollectionEquality().equals(other._selectedItemIDs, _selectedItemIDs));
+            const DeepCollectionEquality()
+                .equals(other._selectedItemIDs, _selectedItemIDs));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_memes), const DeepCollectionEquality().hash(_selectedItemIDs));
+      runtimeType,
+      const DeepCollectionEquality().hash(_memes),
+      const DeepCollectionEquality().hash(_selectedItemIDs));
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HomeScreenStateImplCopyWith<_$HomeScreenStateImpl> get copyWith =>
-      __$$HomeScreenStateImplCopyWithImpl<_$HomeScreenStateImpl>(this, _$identity);
+      __$$HomeScreenStateImplCopyWithImpl<_$HomeScreenStateImpl>(
+          this, _$identity);
 }
 
 abstract class _HomeScreenState extends HomeScreenState {
-  const factory _HomeScreenState({final List<MemeStruct> memes, final Set<int> selectedItemIDs}) =
-      _$HomeScreenStateImpl;
+  const factory _HomeScreenState(
+      {final List<MemeStruct> memes,
+      final Set<int> selectedItemIDs}) = _$HomeScreenStateImpl;
   const _HomeScreenState._() : super._();
 
   @override
@@ -155,5 +169,6 @@ abstract class _HomeScreenState extends HomeScreenState {
   Set<int> get selectedItemIDs;
   @override
   @JsonKey(ignore: true)
-  _$$HomeScreenStateImplCopyWith<_$HomeScreenStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$HomeScreenStateImplCopyWith<_$HomeScreenStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

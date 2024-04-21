@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show Offset, Color;
 import 'package:meme_generator/entity/label_struct.dart';
 import 'package:meme_generator/entity/meme_struct.dart';
-import 'package:meme_generator/data/screenshot_helper.dart';
+import 'package:meme_generator/data/screenshot_maker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
@@ -59,39 +59,52 @@ class MemeDatabase extends _$MemeDatabase {
     await into(memes).insert(MemesCompanion.insert(imagePath: imagePath, previewPath: cachedPreviewPath));
   }
 
+  @Deprecated("Write single label instead using [updateLabel]")
   Future<void> updateMemeLabels(MemeStruct meme, {Offset? size}) async {
     await (into(memes)).insert(
         MemesCompanion.insert(
             id: Value(meme.id),
-            imagePath: meme.url,
-            previewPath: await ScreenshotMaker.getCachedImagePath(meme.url,
-                labels: meme.labels, size: size ?? const Offset(200, 200))),
+            imagePath: meme.backgroundImagePath,
+            previewPath: await ScreenshotMaker.getCachedImagePath(
+              meme.backgroundImagePath,
+              labels: meme.labels,
+              size: size ?? const Offset(200, 200),
+            )),
         mode: InsertMode.insertOrReplace);
 
     await Future.wait(meme.labels.map((element) async => await updateLabel(element, meme.id)));
   }
 
   Future<void> deleteMeme(int id) async {
+    await (delete(labelsOnMeme)..where((tbl) => tbl.memeId.equals(id))).go();
     await (delete(memes)..where((tbl) => tbl.id.equals(id))).go();
   }
 
-  Future<int> addLabel(int memeId, String label, Offset offset, Color color, double scale) async {
+  Future<int> addLabel(int memeID, {LabelStruct? labelStruct}) async {
+    labelStruct ??= LabelStruct.getDefault(0);
     return into(labelsOnMeme).insert(LabelsOnMemeCompanion.insert(
-        memeId: memeId, label: label, x: offset.dx, y: offset.dy, color: color.value, scale: scale));
+      memeId: memeID,
+      label: labelStruct.text,
+      x: labelStruct.offset.dx,
+      y: labelStruct.offset.dy,
+      color: labelStruct.color.value,
+      scale: labelStruct.scale,
+    ));
   }
 
   Future<void> updateLabel(LabelStruct label, int memeID) async {
     (into(labelsOnMeme)).insert(
-        LabelsOnMemeCompanion(
-          id: Value(label.id),
-          memeId: Value(memeID),
-          label: Value(label.text),
-          x: Value(label.offset.dx),
-          y: Value(label.offset.dy),
-          color: Value(label.color.value),
-          scale: Value(label.scale),
-        ),
-        mode: InsertMode.insertOrReplace);
+      LabelsOnMemeCompanion(
+        id: Value(label.id),
+        memeId: Value(memeID),
+        label: Value(label.text),
+        x: Value(label.offset.dx),
+        y: Value(label.offset.dy),
+        color: Value(label.color.value),
+        scale: Value(label.scale),
+      ),
+      mode: InsertMode.insertOrReplace,
+    );
   }
 
   Future<void> deleteLabel(int id) async {
@@ -102,15 +115,45 @@ class MemeDatabase extends _$MemeDatabase {
     final result = <MemeStruct>[];
     final memeList = await select(memes).get();
     for (final meme in memeList) {
-      final labels = await (select(labelsOnMeme)..where((tbl) => tbl.memeId.equals(meme.id))).get().then((value) =>
-          value
-              .map((label) =>
-                  LabelStruct(label.id, label.label, Offset(label.x, label.y), Color(label.color), label.scale))
+      final labels =
+          await (select(labelsOnMeme)..where((tbl) => tbl.memeId.equals(meme.id))).get().then((value) => value
+              .map((label) => LabelStruct(
+                    id: label.id,
+                    text: label.label,
+                    offset: Offset(label.x, label.y),
+                    color: Color(label.color),
+                    scale: label.scale,
+                  ))
               .toList());
-      result.add(MemeStruct(meme.id, meme.imagePath, meme.previewPath, labels));
+      result.add(MemeStruct(
+          id: meme.id, backgroundImagePath: meme.imagePath, previewImagePath: meme.previewPath, labels: labels));
     }
     print("Got memes");
     return result;
+  }
+
+  Future<MemeStruct> getMeme(int id) async {
+    final meme = await (select(memes)..where((tbl) => tbl.id.equals(id))).getSingle();
+    final selectedLabels = await (select(labelsOnMeme)..where((tbl) => tbl.memeId.equals(id))).get();
+    final labels = selectedLabels
+        .map((label) => LabelStruct(
+              id: label.id,
+              text: label.label,
+              offset: Offset(label.x, label.y),
+              color: Color(label.color),
+              scale: label.scale,
+            ))
+        .toList();
+    return MemeStruct(
+      id: meme.id,
+      backgroundImagePath: meme.imagePath,
+      previewImagePath: meme.previewPath,
+      labels: labels,
+    );
+  }
+
+  Future<void> updatePreviewPicture(int id, String path) async {
+    await (update(memes)..where((tbl) => tbl.id.equals(id))).write(MemesCompanion(previewPath: Value(path)));
   }
 }
 

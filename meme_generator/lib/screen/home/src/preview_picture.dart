@@ -24,17 +24,15 @@ class _Selected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<HomeCubit>();
+
     return Card(
         shape: RoundedRectangleBorder(
             side: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
-        // decoration: BoxDecoration(
-        //     border: Border.all(color: Theme.of(context).dividerColor),
-        //     borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: GestureDetector(
           onTap: () => bloc.removeSelectedItem(meme.id),
           child: Stack(fit: StackFit.expand, children: [
-            Center(child: Image.file(File(meme.previewUrl))),
+            Center(child: Image.file(File(meme.previewImagePath))),
             Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -53,60 +51,16 @@ class _NotSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<HomeCubit>();
+    const borderRadius = BorderRadius.all(Radius.circular(16));
     return BlocBuilder<HomeCubit, HomeScreenState>(
       builder: (context, state) => Card(
           shape: RoundedRectangleBorder(
-              side: BorderSide(color: Theme.of(context).dividerColor),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          // decoration: BoxDecoration(
-          //     border: Border.all(color: Theme.of(context).dividerColor),
-          //     borderRadius: const BorderRadius.all(Radius.circular(16))),
+              side: BorderSide(color: Theme.of(context).dividerColor), borderRadius: borderRadius),
           child: GestureDetector(
             onLongPress: () => bloc.addSelectedItem(meme.id),
             onTap: () => state.isSelectingMode ? bloc.addSelectedItem(meme.id) : EditorRoute(id: meme.id).push(context),
-            child: Center(child: Image.file(File(meme.previewUrl))),
+            child: ClipRRect(borderRadius: borderRadius, child: Image.file(File(meme.previewImagePath))),
           )),
     );
   }
 }
-
-// Stack(children: [
-//       GestureDetector(
-//           onTap: () async {
-//             final _ = await Navigator.pushReplacement(
-//                 context, MaterialPageRoute(builder: (context) => MemeGeneratorScreen(memes[count])));
-//           },
-//           child: Center(
-//               child: Image.file(
-//             File(memes[count].previewUrl),
-//           ))),
-//       Align(
-//           alignment: Alignment.topRight,
-//           child: OutlinedButton(
-//             style: ButtonStyle(
-//                 shape: MaterialStateProperty.all(const CircleBorder()),
-//                 backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.surface)),
-//             onPressed: () async {
-//               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//                   content: Row(
-//                 children: [
-//                   const Expanded(child: Text("Вы уверены, что хотите удалить?")),
-//                   TextButton(
-//                       onPressed: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-//                       child: const Text("Отмена")),
-//                   TextButton(
-//                       onPressed: () async {
-//                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-//                         await db.deleteMeme(memes[count].id);
-//                         setState(() {});
-//                       },
-//                       child: const Text("Удалить"))
-//                 ],
-//               )));
-//             },
-//             child: Icon(
-//               Icons.delete_outline,
-//               color: Theme.of(context).colorScheme.error,
-//             ),
-//           )),
-//     ]);

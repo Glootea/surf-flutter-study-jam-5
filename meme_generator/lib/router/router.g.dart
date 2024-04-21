@@ -7,16 +7,16 @@ part of 'router.dart';
 // **************************************************************************
 
 List<RouteBase> get $appRoutes => [
-      $homeScreenRoute,
+      $homeRoute,
     ];
 
-RouteBase get $homeScreenRoute => GoRouteData.$route(
+RouteBase get $homeRoute => GoRouteData.$route(
       path: '/',
-      factory: $HomeScreenRouteExtension._fromState,
+      factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
           path: 'edit/:id',
-          factory: $EditRouteExtension._fromState,
+          factory: $EditorRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'pickFile',
@@ -25,7 +25,7 @@ RouteBase get $homeScreenRoute => GoRouteData.$route(
       ],
     );
 
-extension $HomeScreenRouteExtension on HomeRoute {
+extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => HomeRoute();
 
   String get location => GoRouteData.$location(
@@ -36,12 +36,13 @@ extension $HomeScreenRouteExtension on HomeRoute {
 
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $EditRouteExtension on EditorRoute {
+extension $EditorRouteExtension on EditorRoute {
   static EditorRoute _fromState(GoRouterState state) => EditorRoute(
         id: int.parse(state.pathParameters['id']!),
       );
@@ -54,7 +55,8 @@ extension $EditRouteExtension on EditorRoute {
 
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
 }
@@ -70,7 +72,8 @@ extension $PickFileRouteExtension on PickFileRoute {
 
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
-  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
 }
