@@ -10,24 +10,18 @@ class $MemesTable extends Memes with TableInfo<$MemesTable, Meme> {
   $MemesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _imagePathMeta =
-      const VerificationMeta('imagePath');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _imagePathMeta = const VerificationMeta('imagePath');
   @override
-  late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
-      'image_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _previewPathMeta =
-      const VerificationMeta('previewPath');
+  late final GeneratedColumn<String> imagePath =
+      GeneratedColumn<String>('image_path', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _previewPathMeta = const VerificationMeta('previewPath');
   @override
-  late final GeneratedColumn<String> previewPath = GeneratedColumn<String>(
-      'preview_path', aliasedName, false,
+  late final GeneratedColumn<String> previewPath = GeneratedColumn<String>('preview_path', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, imagePath, previewPath];
@@ -37,24 +31,19 @@ class $MemesTable extends Memes with TableInfo<$MemesTable, Meme> {
   String get actualTableName => $name;
   static const String $name = 'memes';
   @override
-  VerificationContext validateIntegrity(Insertable<Meme> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<Meme> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('image_path')) {
-      context.handle(_imagePathMeta,
-          imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta));
+      context.handle(_imagePathMeta, imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta));
     } else if (isInserting) {
       context.missing(_imagePathMeta);
     }
     if (data.containsKey('preview_path')) {
-      context.handle(
-          _previewPathMeta,
-          previewPath.isAcceptableOrUnknown(
-              data['preview_path']!, _previewPathMeta));
+      context.handle(_previewPathMeta, previewPath.isAcceptableOrUnknown(data['preview_path']!, _previewPathMeta));
     } else if (isInserting) {
       context.missing(_previewPathMeta);
     }
@@ -67,12 +56,9 @@ class $MemesTable extends Memes with TableInfo<$MemesTable, Meme> {
   Meme map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Meme(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      imagePath: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}image_path'])!,
-      previewPath: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}preview_path'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      imagePath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}image_path'])!,
+      previewPath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}preview_path'])!,
     );
   }
 
@@ -86,8 +72,7 @@ class Meme extends DataClass implements Insertable<Meme> {
   final int id;
   final String imagePath;
   final String previewPath;
-  const Meme(
-      {required this.id, required this.imagePath, required this.previewPath});
+  const Meme({required this.id, required this.imagePath, required this.previewPath});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -105,8 +90,7 @@ class Meme extends DataClass implements Insertable<Meme> {
     );
   }
 
-  factory Meme.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory Meme.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Meme(
       id: serializer.fromJson<int>(json['id']),
@@ -177,8 +161,7 @@ class MemesCompanion extends UpdateCompanion<Meme> {
     });
   }
 
-  MemesCompanion copyWith(
-      {Value<int>? id, Value<String>? imagePath, Value<String>? previewPath}) {
+  MemesCompanion copyWith({Value<int>? id, Value<String>? imagePath, Value<String>? previewPath}) {
     return MemesCompanion(
       id: id ?? this.id,
       imagePath: imagePath ?? this.imagePath,
@@ -212,54 +195,44 @@ class MemesCompanion extends UpdateCompanion<Meme> {
   }
 }
 
-class $LabelsOnMemeTable extends LabelsOnMeme
-    with TableInfo<$LabelsOnMemeTable, LabelsOnMemeData> {
+class $LabelsOnMemeTable extends LabelsOnMeme with TableInfo<$LabelsOnMemeTable, LabelsOnMemeData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $LabelsOnMemeTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _labelMeta = const VerificationMeta('label');
   @override
-  late final GeneratedColumn<String> label = GeneratedColumn<String>(
-      'label', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> label =
+      GeneratedColumn<String>('label', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _xMeta = const VerificationMeta('x');
   @override
-  late final GeneratedColumn<double> x = GeneratedColumn<double>(
-      'x', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+  late final GeneratedColumn<double> x =
+      GeneratedColumn<double>('x', aliasedName, false, type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _yMeta = const VerificationMeta('y');
   @override
-  late final GeneratedColumn<double> y = GeneratedColumn<double>(
-      'y', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+  late final GeneratedColumn<double> y =
+      GeneratedColumn<double>('y', aliasedName, false, type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _colorMeta = const VerificationMeta('color');
   @override
-  late final GeneratedColumn<int> color = GeneratedColumn<int>(
-      'color', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<int> color =
+      GeneratedColumn<int>('color', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _scaleMeta = const VerificationMeta('scale');
   @override
-  late final GeneratedColumn<double> scale = GeneratedColumn<double>(
-      'scale', aliasedName, false,
-      type: DriftSqlType.double, requiredDuringInsert: true);
+  late final GeneratedColumn<double> scale =
+      GeneratedColumn<double>('scale', aliasedName, false, type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _memeIdMeta = const VerificationMeta('memeId');
   @override
-  late final GeneratedColumn<int> memeId = GeneratedColumn<int>(
-      'meme_id', aliasedName, false,
+  late final GeneratedColumn<int> memeId = GeneratedColumn<int>('meme_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES memes (id)'));
+      defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES memes (id)'));
   @override
   List<GeneratedColumn> get $columns => [id, label, x, y, color, scale, memeId];
   @override
@@ -268,16 +241,14 @@ class $LabelsOnMemeTable extends LabelsOnMeme
   String get actualTableName => $name;
   static const String $name = 'labels_on_meme';
   @override
-  VerificationContext validateIntegrity(Insertable<LabelsOnMemeData> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<LabelsOnMemeData> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('label')) {
-      context.handle(
-          _labelMeta, label.isAcceptableOrUnknown(data['label']!, _labelMeta));
+      context.handle(_labelMeta, label.isAcceptableOrUnknown(data['label']!, _labelMeta));
     } else if (isInserting) {
       context.missing(_labelMeta);
     }
@@ -292,20 +263,17 @@ class $LabelsOnMemeTable extends LabelsOnMeme
       context.missing(_yMeta);
     }
     if (data.containsKey('color')) {
-      context.handle(
-          _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
+      context.handle(_colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
     } else if (isInserting) {
       context.missing(_colorMeta);
     }
     if (data.containsKey('scale')) {
-      context.handle(
-          _scaleMeta, scale.isAcceptableOrUnknown(data['scale']!, _scaleMeta));
+      context.handle(_scaleMeta, scale.isAcceptableOrUnknown(data['scale']!, _scaleMeta));
     } else if (isInserting) {
       context.missing(_scaleMeta);
     }
     if (data.containsKey('meme_id')) {
-      context.handle(_memeIdMeta,
-          memeId.isAcceptableOrUnknown(data['meme_id']!, _memeIdMeta));
+      context.handle(_memeIdMeta, memeId.isAcceptableOrUnknown(data['meme_id']!, _memeIdMeta));
     } else if (isInserting) {
       context.missing(_memeIdMeta);
     }
@@ -318,20 +286,13 @@ class $LabelsOnMemeTable extends LabelsOnMeme
   LabelsOnMemeData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return LabelsOnMemeData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      label: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}label'])!,
-      x: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}x'])!,
-      y: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}y'])!,
-      color: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
-      scale: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}scale'])!,
-      memeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}meme_id'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      label: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}label'])!,
+      x: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}x'])!,
+      y: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}y'])!,
+      color: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}color'])!,
+      scale: attachedDatabase.typeMapping.read(DriftSqlType.double, data['${effectivePrefix}scale'])!,
+      memeId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}meme_id'])!,
     );
   }
 
@@ -341,8 +302,7 @@ class $LabelsOnMemeTable extends LabelsOnMeme
   }
 }
 
-class LabelsOnMemeData extends DataClass
-    implements Insertable<LabelsOnMemeData> {
+class LabelsOnMemeData extends DataClass implements Insertable<LabelsOnMemeData> {
   final int id;
   final String label;
   final double x;
@@ -383,8 +343,7 @@ class LabelsOnMemeData extends DataClass
     );
   }
 
-  factory LabelsOnMemeData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory LabelsOnMemeData.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LabelsOnMemeData(
       id: serializer.fromJson<int>(json['id']),
@@ -410,14 +369,7 @@ class LabelsOnMemeData extends DataClass
     };
   }
 
-  LabelsOnMemeData copyWith(
-          {int? id,
-          String? label,
-          double? x,
-          double? y,
-          int? color,
-          double? scale,
-          int? memeId}) =>
+  LabelsOnMemeData copyWith({int? id, String? label, double? x, double? y, int? color, double? scale, int? memeId}) =>
       LabelsOnMemeData(
         id: id ?? this.id,
         label: label ?? this.label,
@@ -573,8 +525,7 @@ abstract class _$MemeDatabase extends GeneratedDatabase {
   late final $MemesTable memes = $MemesTable(this);
   late final $LabelsOnMemeTable labelsOnMeme = $LabelsOnMemeTable(this);
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables =>
-      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [memes, labelsOnMeme];
 }

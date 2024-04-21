@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:meme_generator/domain/meme_struct.dart';
+import 'package:meme_generator/entity/meme_struct.dart';
 
 class EditorWidget extends StatefulWidget {
   final MemeStruct meme;

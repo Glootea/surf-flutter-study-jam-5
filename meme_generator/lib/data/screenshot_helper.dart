@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meme_generator/domain/label_struct.dart';
+import 'package:meme_generator/entity/label_struct.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:screenshot/screenshot.dart';
 
-class ScreenshotHelper {
+class ScreenshotMaker {
   static Future<String> getCachedImagePath(String path,
       {List<LabelStruct> labels = const [], Offset size = const Offset(200, 200)}) async {
     return await ScreenshotController()
@@ -32,7 +32,7 @@ class ScreenshotHelper {
     )))
         .then((image) async {
       final cachedFilePath = (await getApplicationDocumentsDirectory()).path + path.split('/').last;
-      await File(cachedFilePath).writeAsBytes(image.buffer.asUint8List());
+      await File(cachedFilePath).writeAsBytes(image.buffer.asUint8List(), flush: true);
       return cachedFilePath;
     });
   }

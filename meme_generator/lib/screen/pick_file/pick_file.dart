@@ -1,12 +1,8 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:meme_generator/database.dart';
-import 'package:meme_generator/screen/home_screen.dart';
-import 'package:meme_generator/screenshot_helper.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:meme_generator/data/database.dart';
+import 'package:meme_generator/router/router.dart';
+import 'package:meme_generator/data/screenshot_helper.dart';
 
 import 'package:provider/provider.dart';
 
@@ -90,8 +86,7 @@ class _PickFileScreenState extends State<PickFileScreen> {
                       );
                       if (result == null) {
                         if (mounted) {
-                          Navigator.pushReplacement(
-                              context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                          HomeRoute().pushReplacement(context);
                         }
                         return;
                       }
@@ -100,12 +95,12 @@ class _PickFileScreenState extends State<PickFileScreen> {
                       for (final file in result.files) {
                         final path = file.path;
                         if (path != null) {
-                          await db.addMeme(path, await ScreenshotHelper.getCachedImagePath(path));
+                          await db.addMeme(path, await ScreenshotMaker.getCachedImagePath(path));
                         }
                       }
 
                       if (mounted) {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                        HomeRoute().pushReplacement(context);
                       }
                     },
                     child: const Text('Выбрать из галереи', textAlign: TextAlign.left),

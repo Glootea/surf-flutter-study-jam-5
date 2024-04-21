@@ -5,9 +5,9 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' show Offset, Color;
-import 'package:meme_generator/domain/label_struct.dart';
-import 'package:meme_generator/domain/meme_struct.dart';
-import 'package:meme_generator/screenshot_helper.dart';
+import 'package:meme_generator/entity/label_struct.dart';
+import 'package:meme_generator/entity/meme_struct.dart';
+import 'package:meme_generator/data/screenshot_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
@@ -64,7 +64,7 @@ class MemeDatabase extends _$MemeDatabase {
         MemesCompanion.insert(
             id: Value(meme.id),
             imagePath: meme.url,
-            previewPath: await ScreenshotHelper.getCachedImagePath(meme.url,
+            previewPath: await ScreenshotMaker.getCachedImagePath(meme.url,
                 labels: meme.labels, size: size ?? const Offset(200, 200))),
         mode: InsertMode.insertOrReplace);
 
@@ -109,7 +109,7 @@ class MemeDatabase extends _$MemeDatabase {
               .toList());
       result.add(MemeStruct(meme.id, meme.imagePath, meme.previewPath, labels));
     }
-
+    print("Got memes");
     return result;
   }
 }

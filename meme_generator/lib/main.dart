@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:meme_generator/database.dart';
-import 'package:meme_generator/screen/home_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'router/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
 }
+
+final _router = GoRouter(routes: $appRoutes);
 
 /// App,s main widget.
 class MyApp extends StatelessWidget {
@@ -16,14 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [Provider(create: (context) => MemeDatabase())],
-      child: MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-          useMaterial3: true,
-        ),
-        home: const HomeScreen(),
+    return MaterialApp.router(
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
       ),
     );
   }
